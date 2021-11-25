@@ -7,7 +7,7 @@ from jsmin import jsmin
 
 if __name__ == "__main__":
     env = Environment(
-        loader=PackageLoader("generate", "."),
+        loader=PackageLoader("build", "."),
         autoescape=select_autoescape(["html", "xml"]),
     )
     paths = [
