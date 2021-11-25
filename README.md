@@ -1,6 +1,6 @@
 # 2048.w30
 
-A [2048](https://github.com/gabrielecirulli/2048) port for web30.
+A [2048](https://github.com/gabrielecirulli/2048) game port for web30.
 
 ## Building
 
