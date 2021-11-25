@@ -24,6 +24,9 @@ function LocalStorageManager() {
 
   var supported = this.localStorageSupported();
   this.storage = supported ? window.localStorage : window.fakeStorage;
+
+  window.deltachat.setStateUpdateListener(this.loadBestScore);
+  window.deltachat.getAllStateUpdates().forEach(this.loadBestScore);
 }
 
 LocalStorageManager.prototype.localStorageSupported = function () {
@@ -46,6 +49,13 @@ LocalStorageManager.prototype.getBestScore = function () {
 
 LocalStorageManager.prototype.setBestScore = function (score) {
   this.storage.setItem(this.bestScoreKey, score);
+  window.deltachat.sendStateUpdate("new best score", score);
+};
+
+LocalStorageManager.prototype.loadBestScore = function (stateUpdate) {
+  if (this.getBestScore() < Number(stateUpdate.payload)) {
+    this.storage.setItem(this.bestScoreKey, stateUpdate.payload);
+  }
 };
 
 // Game state getters/setters and clearing
