@@ -11,20 +11,8 @@ if __name__ == "__main__":
         loader=PackageLoader("build", "."),
         autoescape=select_autoescape(["html", "xml"]),
     )
-    paths = [
-        "bind_polyfill.js",
-        "classlist_polyfill.js",
-        "animframe_polyfill.js",
-        "keyboard_input_manager.js",
-        "html_actuator.js",
-        "grid.js",
-        "tile.js",
-        "local_storage_manager.js",
-        "game_manager.js",
-        "application.js",
-    ]
     scripts = []
-    for filename in paths:
+    for filename in sorted(os.listdir("js")):
         with open(os.path.join("js", filename)) as file:
             scripts.append(jsmin(file.read()).replace("\n", ";"))
     min_script = ";".join(scripts)
