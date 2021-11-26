@@ -25,8 +25,8 @@ function LocalStorageManager() {
   var supported = this.localStorageSupported();
   this.storage = supported ? window.localStorage : window.fakeStorage;
 
-  window.deltachat.setStateUpdateListener(this.loadBestScore);
-  window.deltachat.getAllStateUpdates().forEach(this.loadBestScore);
+  window.deltachat.setStateUpdateListener(this.loadBestScore.bind(this));
+  window.deltachat.getAllStateUpdates().forEach(this.loadBestScore.bind(this));
 }
 
 LocalStorageManager.prototype.localStorageSupported = function () {
