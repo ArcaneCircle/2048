@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import os
+from io import StringIO
 
 import htmlmin
 import lesscpy
@@ -28,23 +29,24 @@ if __name__ == "__main__":
         loader=PackageLoader("build", "."),
         autoescape=select_autoescape(["html", "xml"]),
     )
+
     scripts = []
     for filename in sorted(os.listdir("js")):
         with open(os.path.join("js", filename)) as file:
-            if args.minify:
-                scripts.append(jsmin(file.read()).replace("\n", ";"))
-            else:
-                scripts.append(file.read())
-    script = ";".join(scripts)
+            scripts.append(file.read())
+    script = "\n".join(scripts)
+    if args.minify:
+        script = jsmin(script).replace("\n", ";")
 
-    with open(os.path.join("style", "main.css")) as file:
-        if args.minify:
-            css = lesscpy.compile(file, minify=True, xminify=True)
-        else:
-            css = file.read()
+    styles = []
+    for filename in sorted(os.listdir("style")):
+        with open(os.path.join("style", filename)) as file:
+            styles.append(file.read())
+    css = "\n".join(styles)
+    if args.minify:
+        css = lesscpy.compile(StringIO(css), minify=True, xminify=True)
 
-    template = env.get_template("index.html.j2")
-    html = template.render(css=css, script=script)
+    html = env.get_template("index.html.j2").render(css=css, script=script)
     if args.minify:
         html = htmlmin.minify(html)
 
