@@ -48,7 +48,6 @@ LocalStorageManager.prototype.getBestScore = function () {
 };
 
 LocalStorageManager.prototype.setBestScore = function (score) {
-  this.storage.setItem(this.bestScoreKey, score);
   window.deltachat.sendStateUpdate("new best score", score);
 };
 
