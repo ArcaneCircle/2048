@@ -123,21 +123,21 @@ HTMLActuator.prototype.updateScoreboard = function (board) {
   if (board.length > 0) {
     var h1 = document.createElement("h1");
     h1.textContent = "High Scores";
-    var ol = document.createElement("ol");
+    var table = document.createElement("table");
+    table.innerHTML="<tr><th>Name</th><th>Score</th></tr>";
     for (var i = 0; i < board.length; i++) {
-      var li = document.createElement("li");
-      if (board[i][0] == 1) {
-        var bold = document.createElement("strong");
-        bold.textContent = board[i][1] + " - " + board[i][2];
-        li.appendChild(bold);
-      } else {
-        li.textContent = board[i][1] + " - " + board[i][2];
-      }
-      ol.appendChild(li);
+      var tr = document.createElement("tr");
+      var td = document.createElement("td");
+      td.textContent = board[i][1];
+      tr.appendChild(td);
+      td = document.createElement("td");
+      td.textContent = board[i][2];
+      tr.appendChild(td);
+      table.appendChild(tr);
     }
     this.scoreboardContainer.innerHTML = "";
     this.scoreboardContainer.appendChild(h1);
-    this.scoreboardContainer.appendChild(ol);
+    this.scoreboardContainer.appendChild(table);
   } else {
     this.scoreboardContainer.innerHTML = "";
   }

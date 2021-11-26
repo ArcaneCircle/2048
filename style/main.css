@@ -9,6 +9,10 @@ html, body {
 body {
   margin: 80px 0; }
 
+table{border-collapse:collapse;border-spacing:0;width:100%;display:table}
+table,th,td{border:none}
+table td,table th{padding:6px 8px;display:table-cell;text-align:left;vertical-align:top}
+
 .heading:after {
   content: "";
   display: block;
