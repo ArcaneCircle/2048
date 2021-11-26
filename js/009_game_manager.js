@@ -7,7 +7,11 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.startTiles     = 2;
 
   window.deltachat.setStateUpdateListener(this.onStateUpdate.bind(this));
-  window.deltachat.getAllStateUpdates().forEach(this.onStateUpdate.bind(this));
+  window.deltachat.getAllStateUpdates().forEach((stateUpdate) => {
+    if (this.storageManager.getBestScore() < Number(stateUpdate.payload)) {
+      this.storageManager.setBestScore(stateUpdate.payload);
+    }
+  });
 
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
@@ -19,6 +23,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
 GameManager.prototype.onStateUpdate = function (stateUpdate) {
   if (this.storageManager.getBestScore() < Number(stateUpdate.payload)) {
     this.storageManager.setBestScore(stateUpdate.payload);
+    this.actuator.updateBestScore(stateUpdate.payload);
   }
 };
 
