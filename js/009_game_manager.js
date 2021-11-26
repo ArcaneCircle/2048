@@ -6,12 +6,21 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
 
   this.startTiles     = 2;
 
+  window.deltachat.setStateUpdateListener(this.onStateUpdate.bind(this));
+  window.deltachat.getAllStateUpdates().forEach(this.onStateUpdate.bind(this));
+
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
 
   this.setup();
 }
+
+GameManager.prototype.onStateUpdate = function (stateUpdate) {
+  if (this.storageManager.getBestScore() < Number(stateUpdate.payload)) {
+    this.storageManager.setBestScore(stateUpdate.payload);
+  }
+};
 
 // Restart the game
 GameManager.prototype.restart = function () {
@@ -77,12 +86,11 @@ GameManager.prototype.addRandomTile = function () {
 
 // Sends the updated grid to the actuator
 GameManager.prototype.actuate = function () {
-  if (this.storageManager.getBestScore() < this.score) {
-    this.storageManager.setBestScore(this.score);
-  }
-
   // Clear the state when the game is over (game over only, not win)
   if (this.over) {
+    if (this.storageManager.getBestScore() < this.score) {
+      window.deltachat.sendStateUpdate("high score", this.score);
+    }
     this.storageManager.clearGameState();
   } else {
     this.storageManager.setGameState(this.serialize());
