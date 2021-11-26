@@ -2,7 +2,7 @@ window.fakeStorage = {
   _data: {},
 
   setItem: function (id, val) {
-    return this._data[id] = String(val);
+    return this._data[id] = val;
   },
 
   getItem: function (id) {
@@ -13,51 +13,50 @@ window.fakeStorage = {
     return delete this._data[id];
   },
 
+  getItems: function () {
+    return this._data;
+  },
+
   clear: function () {
     return this._data = {};
   }
 };
 
 function LocalStorageManager() {
-  this.bestScoreKey     = "bestScore";
-  this.gameStateKey     = "gameState";
-
-  var supported = this.localStorageSupported();
-  this.storage = supported ? window.localStorage : window.fakeStorage;
+  this.gameState = undefined;
+  this.storage = window.fakeStorage;
 }
 
-LocalStorageManager.prototype.localStorageSupported = function () {
-  var testKey = "test";
-
-  try {
-    var storage = window.localStorage;
-    storage.setItem(testKey, "1");
-    storage.removeItem(testKey);
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
-
 // Best score getters/setters
-LocalStorageManager.prototype.getBestScore = function () {
-  return this.storage.getItem(this.bestScoreKey) || 0;
+LocalStorageManager.prototype.getBestScore = function (userId) {
+  var item = this.storage.getItem(userId);
+  return item ? item["score"] : 0;
 };
 
-LocalStorageManager.prototype.setBestScore = function (score) {
-  this.storage.setItem(this.bestScoreKey, score);
+LocalStorageManager.prototype.setBestScore = function (userId, userName, score) {
+  this.storage.setItem(userId, {"name": userName, "score": score});
+};
+
+LocalStorageManager.prototype.getScoreboard = function () {
+  var dict = this.storage.getItems();
+  var items = Object.keys(dict).map(function (key) {
+    return [key, dict[key]["name"], dict[key]["score"]];
+  });
+  items.sort(function (first, second) {
+    return second[2] - first[2];
+  });
+  return items;
 };
 
 // Game state getters/setters and clearing
 LocalStorageManager.prototype.getGameState = function () {
-  var stateJSON = this.storage.getItem(this.gameStateKey);
-  return stateJSON ? JSON.parse(stateJSON) : null;
+  return this.gameState ? JSON.parse(this.gameState) : null;
 };
 
 LocalStorageManager.prototype.setGameState = function (gameState) {
-  this.storage.setItem(this.gameStateKey, JSON.stringify(gameState));
+  this.gameState = JSON.stringify(gameState);
 };
 
 LocalStorageManager.prototype.clearGameState = function () {
-  this.storage.removeItem(this.gameStateKey);
+  this.gameState = undefined;
 };

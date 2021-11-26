@@ -45,12 +45,10 @@ h1.title {
   100% {
     top: -50px;
     opacity: 0; } }
-.scores-container {
-  float: right;
-  text-align: right; }
 
 .score-container, .best-container {
   position: relative;
+  float: right;
   display: inline-block;
   background: #bbada0;
   padding: 15px 25px;

@@ -8,10 +8,11 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
 
   window.deltachat.setStateUpdateListener(this.onStateUpdate.bind(this));
   window.deltachat.getAllStateUpdates().forEach((stateUpdate) => {
-    if (this.storageManager.getBestScore() < Number(stateUpdate.payload)) {
-      this.storageManager.setBestScore(stateUpdate.payload);
+    if (this.storageManager.getBestScore(stateUpdate.authorId) < Number(stateUpdate.payload)) {
+      this.storageManager.setBestScore(stateUpdate.authorId, stateUpdate.authorDisplayName, stateUpdate.payload);
     }
   });
+  this.actuator.updateScoreboard(this.storageManager.getScoreboard());
 
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
@@ -21,14 +22,17 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
 }
 
 GameManager.prototype.onStateUpdate = function (stateUpdate) {
-  if (this.storageManager.getBestScore() < Number(stateUpdate.payload)) {
-    this.storageManager.setBestScore(stateUpdate.payload);
-    this.actuator.updateBestScore(stateUpdate.payload);
+  if (this.storageManager.getBestScore(stateUpdate.authorId) < Number(stateUpdate.payload)) {
+    this.storageManager.setBestScore(stateUpdate.authorId, stateUpdate.authorDisplayName, stateUpdate.payload);
+    this.actuator.updateScoreboard(this.storageManager.getScoreboard());
   }
 };
 
 // Restart the game
 GameManager.prototype.restart = function () {
+  if (this.storageManager.getBestScore(1) < this.score) {
+    window.deltachat.sendStateUpdate("high score", this.score);
+  }
   this.storageManager.clearGameState();
   this.actuator.continueGame(); // Clear the game won/lost message
   this.setup();
@@ -93,7 +97,7 @@ GameManager.prototype.addRandomTile = function () {
 GameManager.prototype.actuate = function () {
   // Clear the state when the game is over (game over only, not win)
   if (this.over) {
-    if (this.storageManager.getBestScore() < this.score) {
+    if (this.storageManager.getBestScore(1) < this.score) {
       window.deltachat.sendStateUpdate("high score", this.score);
     }
     this.storageManager.clearGameState();
@@ -105,7 +109,6 @@ GameManager.prototype.actuate = function () {
     score:      this.score,
     over:       this.over,
     won:        this.won,
-    bestScore:  this.storageManager.getBestScore(),
     terminated: this.isGameTerminated()
   });
 

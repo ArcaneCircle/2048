@@ -1,7 +1,7 @@
 function HTMLActuator() {
   this.tileContainer    = document.querySelector(".tile-container");
   this.scoreContainer   = document.querySelector(".score-container");
-  this.bestContainer    = document.querySelector(".best-container");
+  this.scoreboardContainer = document.querySelector(".scoreboard-container");
   this.messageContainer = document.querySelector(".game-message");
 
   this.score = 0;
@@ -22,7 +22,6 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
     });
 
     self.updateScore(metadata.score);
-    self.updateBestScore(metadata.bestScore);
 
     if (metadata.terminated) {
       if (metadata.over) {
@@ -120,8 +119,28 @@ HTMLActuator.prototype.updateScore = function (score) {
   }
 };
 
-HTMLActuator.prototype.updateBestScore = function (bestScore) {
-  this.bestContainer.textContent = bestScore;
+HTMLActuator.prototype.updateScoreboard = function (board) {
+  if (board.length > 0) {
+    var h1 = document.createElement("h1");
+    h1.textContent = "High Scores";
+    var ol = document.createElement("ol");
+    for (var i = 0; i < board.length; i++) {
+      var li = document.createElement("li");
+      if (board[i][0] == 1) {
+        var bold = document.createElement("strong");
+        bold.textContent = board[i][1] + " - " + board[i][2];
+        li.appendChild(bold);
+      } else {
+        li.textContent = board[i][1] + " - " + board[i][2];
+      }
+      ol.appendChild(li);
+    }
+    this.scoreboardContainer.innerHTML = "";
+    this.scoreboardContainer.appendChild(h1);
+    this.scoreboardContainer.appendChild(ol);
+  } else {
+    this.scoreboardContainer.innerHTML = "";
+  }
 };
 
 HTMLActuator.prototype.message = function (won) {
