@@ -9,7 +9,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   window.webxdc.setUpdateListener(this.onStateUpdate.bind(this));
   window.webxdc.getAllUpdates().forEach((update) => {
     var payload = update.payload;
-    if (this.storageManager.getBestScore(payload.addr) < Number(payload.score)) {
+    if (this.storageManager.getBestScore(payload.addr) < payload.score) {
       this.storageManager.setBestScore(payload.addr, payload.name, payload.score);
     }
   });
@@ -24,7 +24,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
 
 GameManager.prototype.onStateUpdate = function (update) {
   var payload = update.payload;
-  if (this.storageManager.getBestScore(payload.addr) < Number(payload.score)) {
+  if (this.storageManager.getBestScore(payload.addr) < payload.score) {
     this.storageManager.setBestScore(payload.addr, payload.name, payload.score);
     this.actuator.updateScoreboard(this.storageManager.getScoreboard());
   }
