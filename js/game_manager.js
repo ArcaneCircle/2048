@@ -6,10 +6,11 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
 
   this.startTiles     = 2;
 
-  window.deltachat.setStateUpdateListener(this.onStateUpdate.bind(this));
-  window.deltachat.getAllStateUpdates().forEach((stateUpdate) => {
-    if (this.storageManager.getBestScore(stateUpdate.authorId) < Number(stateUpdate.payload)) {
-      this.storageManager.setBestScore(stateUpdate.authorId, stateUpdate.authorDisplayName, stateUpdate.payload);
+  window.webxdc.setUpdateListener(this.onStateUpdate.bind(this));
+  window.webxdc.getAllUpdates().forEach((update) => {
+    var payload = update.payload;
+    if (this.storageManager.getBestScore(payload.addr) < Number(payload.score)) {
+      this.storageManager.setBestScore(payload.addr, payload.name, payload.score);
     }
   });
   this.actuator.updateScoreboard(this.storageManager.getScoreboard());
@@ -21,9 +22,10 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.setup();
 }
 
-GameManager.prototype.onStateUpdate = function (stateUpdate) {
-  if (this.storageManager.getBestScore(stateUpdate.authorId) < Number(stateUpdate.payload)) {
-    this.storageManager.setBestScore(stateUpdate.authorId, stateUpdate.authorDisplayName, stateUpdate.payload);
+GameManager.prototype.onStateUpdate = function (update) {
+  var payload = update.payload;
+  if (this.storageManager.getBestScore(payload.addr) < Number(payload.score)) {
+    this.storageManager.setBestScore(payload.addr, payload.name, payload.score);
     this.actuator.updateScoreboard(this.storageManager.getScoreboard());
   }
 };
@@ -31,7 +33,7 @@ GameManager.prototype.onStateUpdate = function (stateUpdate) {
 // Restart the game
 GameManager.prototype.restart = function () {
   if (this.storageManager.getBestScore(1) < this.score) {
-    window.deltachat.sendStateUpdate("high score", this.score);
+    window.webxdc.sendUpdate("New high score", {"addr": window.webxdc.selfAddr(), "name": window.webxdc.selfName(), "score": this.score});
   }
   this.storageManager.clearGameState();
   this.actuator.continueGame(); // Clear the game won/lost message
@@ -98,7 +100,7 @@ GameManager.prototype.actuate = function () {
   // Clear the state when the game is over (game over only, not win)
   if (this.over) {
     if (this.storageManager.getBestScore(1) < this.score) {
-      window.deltachat.sendStateUpdate("high score", this.score);
+      window.webxdc.sendUpdate("New high score", {"addr": window.webxdc.selfAddr(), "name": window.webxdc.selfName(), "score": this.score});
     }
     this.storageManager.clearGameState();
   } else {

@@ -1,1 +1,3 @@
 .sass-cache/
+*.xdc
+webxdc.js

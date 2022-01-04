@@ -1,22 +1,16 @@
-# 2048.w30
+# webXdc 2048
 
-A [2048](https://github.com/gabrielecirulli/2048) game port for web30.
+A [2048](https://github.com/gabrielecirulli/2048) game port for webXdc.
 
 ## Building
 
-First install the dependecies needed by the build script:
+Just execute:
 
 ```
-pip3 install -r ./requirements.txt
+./create-xdc.sh
 ```
 
-Then run the script:
-
-```
-python3 ./build.py
-```
-
-The output is saved to `dist/` folder
+The output is a file with `.xdc` extension.
  
 ## License
-2048.w30 is licensed under the [MIT license.](https://github.com/adbenitez/2048/blob/master/LICENSE.txt)
+"webXdc 2048" is licensed under the [MIT license.](https://github.com/adbenitez/webxdc-2048/blob/master/LICENSE.txt)
