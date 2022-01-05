@@ -30,7 +30,7 @@ function LocalStorageManager() {
 // Best score getters/setters
 LocalStorageManager.prototype.getBestScore = function (userId) {
   var item = this.storage.getItem(userId);
-  return item ? item["score"] : 0;
+  return item ? item.score : 0;
 };
 
 LocalStorageManager.prototype.setBestScore = function (userId, userName, score) {
@@ -50,11 +50,11 @@ LocalStorageManager.prototype.getScoreboard = function () {
 
 // Game state getters/setters and clearing
 LocalStorageManager.prototype.getGameState = function () {
-  return this.gameState ? JSON.parse(this.gameState) : null;
+  return this.gameState;
 };
 
 LocalStorageManager.prototype.setGameState = function (gameState) {
-  this.gameState = JSON.stringify(gameState);
+  this.gameState = gameState;
 };
 
 LocalStorageManager.prototype.clearGameState = function () {
