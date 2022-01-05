@@ -32,8 +32,9 @@ GameManager.prototype.onStateUpdate = function (update) {
 
 // Restart the game
 GameManager.prototype.restart = function () {
-  if (this.storageManager.getBestScore(1) < this.score) {
-    window.webxdc.sendUpdate("New high score", {"addr": window.webxdc.selfAddr(), "name": window.webxdc.selfName(), "score": this.score});
+  const addr = window.webxdc.selfAddr();
+  if (this.storageManager.getBestScore(addr) < this.score) {
+    window.webxdc.sendUpdate("New high score in 2048", {"addr": addr, "name": window.webxdc.selfName(), "score": this.score});
   }
   this.storageManager.clearGameState();
   this.actuator.continueGame(); // Clear the game won/lost message
@@ -99,8 +100,9 @@ GameManager.prototype.addRandomTile = function () {
 GameManager.prototype.actuate = function () {
   // Clear the state when the game is over (game over only, not win)
   if (this.over) {
-    if (this.storageManager.getBestScore(1) < this.score) {
-      window.webxdc.sendUpdate("New high score", {"addr": window.webxdc.selfAddr(), "name": window.webxdc.selfName(), "score": this.score});
+    const addr = window.webxdc.selfAddr();
+    if (this.storageManager.getBestScore(addr) < this.score) {
+      window.webxdc.sendUpdate("New high score", {"addr": addr, "name": window.webxdc.selfName(), "score": this.score});
     }
     this.storageManager.clearGameState();
   } else {
