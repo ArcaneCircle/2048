@@ -757,3 +757,9 @@ hr {
     margin-top: 90px !important; }
   .game-message .lower {
     margin-top: 30px !important; } }
+
+
+.w3-ol{padding:0 0 0 20px;margin:0}
+.w3-ol li{padding:8px 0px;border-bottom:1px solid #ddd}
+.w3-ol li:last-child{border-bottom:none}
+.w3-right{float:right!important}

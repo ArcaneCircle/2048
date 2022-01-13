@@ -120,27 +120,35 @@ HTMLActuator.prototype.updateScore = function (score) {
 };
 
 HTMLActuator.prototype.updateScoreboard = function (board) {
-  if (board.length > 0) {
-    var h1 = document.createElement("h1");
-    h1.textContent = "High Scores";
-    var table = document.createElement("table");
-    table.innerHTML="<tr><th>Name</th><th>Score</th></tr>";
-    for (var i = 0; i < board.length; i++) {
-      var tr = document.createElement("tr");
-      var td = document.createElement("td");
-      td.textContent = board[i][1];
-      tr.appendChild(td);
-      td = document.createElement("td");
-      td.textContent = board[i][2];
-      tr.appendChild(td);
-      table.appendChild(tr);
+    if (board.length > 0) {
+        const addr = window.webxdc.selfAddr();
+        const list = document.createElement('ol');
+        list.className = 'w3-ol';
+        board.forEach(item => {
+            const name = document.createElement('span');
+            name.textContent = item.name.length > 20 ? item.name.substring(0, 20) + '…' : item.name;
+
+            const score = document.createElement('span');
+            score.textContent = item.score;
+            score.className = 'w3-right';
+
+            const li = document.createElement('li');
+            if (item.addr == addr) {
+                const strong = document.createElement("strong");
+                strong.appendChild(name);
+                strong.appendChild(score);
+                li.appendChild(strong);
+            } else {
+                li.appendChild(name);
+                li.appendChild(score);
+            }
+            list.appendChild(li);
+        });
+        this.scoreboardContainer.innerHTML = "<h1>Scoreboard</h1>";
+        this.scoreboardContainer.appendChild(list);
+    } else {
+        this.scoreboardContainer.innerHTML = "";
     }
-    this.scoreboardContainer.innerHTML = "";
-    this.scoreboardContainer.appendChild(h1);
-    this.scoreboardContainer.appendChild(table);
-  } else {
-    this.scoreboardContainer.innerHTML = "";
-  }
 };
 
 HTMLActuator.prototype.message = function (won) {

@@ -13,9 +13,11 @@ function GameManager(size, InputManager, Actuator) {
           },
 
           getScoreboard: () => {
-              return Object.keys(players).map(function (key) {
-                  return [key, players[key]["name"], players[key]["score"]];
-              }).sort((a, b) => b[2] - a[2]);
+              return Object.keys(players).map(function (addr) {
+                  const player = players[addr];
+                  player.addr = addr;
+                  return player;
+              }).sort((a, b) => b.score - a.score);
           },
 
           getGameState: () => gameState,
