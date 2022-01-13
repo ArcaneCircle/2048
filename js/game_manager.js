@@ -1,7 +1,30 @@
-function GameManager(size, InputManager, Actuator, StorageManager) {
+function GameManager(size, InputManager, Actuator) {
   this.size           = size; // Size of the grid
   this.inputManager   = new InputManager;
-  this.storageManager = new StorageManager;
+  this.storageManager = (() => {
+      let gameState = undefined;
+      const players = {};
+
+      return {
+          getBestScore: (addr) => (players[addr] ? players[addr].score : 0),
+
+          setBestScore: (addr, name, score) => {
+              players[addr] = {"name": name, "score": score};
+          },
+
+          getScoreboard: () => {
+              return Object.keys(players).map(function (key) {
+                  return [key, players[key]["name"], players[key]["score"]];
+              }).sort((a, b) => b[2] - a[2]);
+          },
+
+          getGameState: () => gameState,
+
+          setGameState: (state) => {gameState = state},
+
+          clearGameState: () => {gameState = undefined}
+      };
+  })();
   this.actuator       = new Actuator;
 
   this.startTiles     = 2;

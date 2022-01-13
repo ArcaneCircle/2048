@@ -52,7 +52,6 @@ if __name__ == "__main__":
         "js/grid.js",
         "js/html_actuator.js",
         "js/keyboard_input_manager.js",
-        "js/local_storage_manager.js",
         "js/tile.js",
     ]
     for path in paths:
