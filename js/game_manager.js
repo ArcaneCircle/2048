@@ -30,11 +30,17 @@ GameManager.prototype.onStateUpdate = function (update) {
   }
 };
 
+GameManager.prototype.sendHighScore = function () {
+  const name = window.webxdc.selfName();
+  const desc = name + ' scored ' + this.score + ' in 2048';
+  window.webxdc.sendUpdate({addr: window.webxdc.selfAddr(), name: name, score: this.score}, desc);
+};
+
 // Restart the game
 GameManager.prototype.restart = function () {
   const addr = window.webxdc.selfAddr();
   if (this.storageManager.getBestScore(addr) < this.score) {
-    window.webxdc.sendUpdate("New high score in 2048", {"addr": addr, "name": window.webxdc.selfName(), "score": this.score});
+    this.sendHighScore();
   }
   this.storageManager.clearGameState();
   this.actuator.continueGame(); // Clear the game won/lost message
@@ -102,7 +108,7 @@ GameManager.prototype.actuate = function () {
   if (this.over) {
     const addr = window.webxdc.selfAddr();
     if (this.storageManager.getBestScore(addr) < this.score) {
-      window.webxdc.sendUpdate("New high score", {"addr": addr, "name": window.webxdc.selfName(), "score": this.score});
+      this.sendHighScore();
     }
     this.storageManager.clearGameState();
   } else {
