@@ -1,13 +1,14 @@
+// debug friend: document.writeln(JSON.stringify(value));
 window.webxdc = (() => {
     var updateListener = () => {};
     var updatesKey = "__xdcUpdatesKey__";
     window.addEventListener('storage', (event) => {
         if (event.key == null) {
             window.location.reload();
-        } else if (event.key == updatesKey) {
-            const updates = JSON.parse(event.newValue);
-            const update = updates[updates.length-1];
-            console.log("[WEBXDC] " + JSON.stringify(update));
+        } else if (event.key === updatesKey) {
+            var updates = JSON.parse(event.newValue);
+            var update = updates[updates.length-1];
+            console.log("[Webxdc] " + JSON.stringify(update));
             updateListener(update);
         }
     });
@@ -26,10 +27,10 @@ window.webxdc = (() => {
             var updatesJSON = window.localStorage.getItem(updatesKey);
             return updatesJSON ? JSON.parse(updatesJSON) : [];
         },
-        sendUpdate: (description, payload) => {
+        sendUpdate: (payload, description) => {
             // alert(description+"\n\n"+JSON.stringify(payload));
             var update = {payload: payload};
-            console.log("[WEBXDC] " + JSON.stringify(update));
+            console.log('[Webxdc] description="' + description + '", ' + JSON.stringify(update));
             updateListener(update);
             var updatesJSON = window.localStorage.getItem(updatesKey);
             var updates = updatesJSON ? JSON.parse(updatesJSON) : [];
@@ -41,17 +42,17 @@ window.webxdc = (() => {
 
 window.addXdcPeer = () => {
     var loc = window.location;
-    // get peer count
+    // get next peer ID
     var params = new URLSearchParams(loc.hash.substr(1));
-    var peerId = (Number(params.get("peer_count")) || 0) + 1;
+    var peerId = Number(params.get("next_peer")) || 1;
 
     // open a new window
     var peerName = "device" + peerId;
     var url = loc.protocol + "//" + loc.host + loc.pathname + "#name=" + peerName + "&addr=" + peerName + "@local.host";
     window.open(url);
 
-    // update peer count
-    params.set("peer_count", peerId);
+    // update next peer ID
+    params.set("next_peer", peerId + 1);
     window.location.hash = "#" + params.toString();
 }
 
@@ -61,8 +62,9 @@ window.clearXdcStorage = () => {
 }
 
 window.alterXdcApp = () => {
-    var styleControlPanel = 'position: fixed; bottom:1em; left:1em; background-color: #000; opacity:0.8; padding:.5em; font-family: sans-serif;color:#fff;';
-    var styleMenuLink = 'color:#fff; text-decoration: none;';
+    var styleControlPanel = 'position: fixed; bottom:1em; left:1em; background-color: #000; opacity:0.8; padding:.5em; font-family: sans-serif; color:#fff; z-index: 9999';
+    var styleMenuLink = 'color:#fff; text-decoration: none; vertical-align: middle';
+    var styleAppIcon = 'height: 1.5em; width: 1.5em; margin-right: 0.5em; border-radius:10%; vertical-align: middle';
     var title = document.getElementsByTagName('title')[0];
     if (typeof title == 'undefined') {
         title = document.createElement('title');
@@ -70,14 +72,28 @@ window.alterXdcApp = () => {
     }
     title.innerText = window.webxdc.selfAddr();
 
-    if (window.webxdc.selfName() == "device0") {
+    if (window.webxdc.selfName() === "device0") {
         var div = document.createElement('div');
         div.innerHTML =
             '<div style="' + styleControlPanel + '">' +
-            '<a href="javascript:window.addXdcPeer();" style="' + styleMenuLink + '">Add Peer</a> | ' +
+            '<a href="javascript:window.addXdcPeer();" style="' + styleMenuLink + '">Add Peer</a>' +
+            '<span style="' + styleMenuLink + '"> | </span>' +
             '<a href="javascript:window.clearXdcStorage();" style="' + styleMenuLink + '">Clear Storage</a>' +
             '<div>';
-        document.getElementsByTagName('body')[0].append(div.firstChild);
+        var controlPanel = div.firstChild;
+
+        function loadIcon(name) {
+            var tester = new Image();
+            tester.onload = () => {
+                div.innerHTML = '<img src="' + name + '" style="' + styleAppIcon +'">';
+                controlPanel.insertBefore(div.firstChild, controlPanel.firstChild);
+            };
+            tester.src = name;
+        }
+        loadIcon("icon.png");
+        loadIcon("icon.jpg");
+
+        document.getElementsByTagName('body')[0].append(controlPanel);
     }
 }
 
