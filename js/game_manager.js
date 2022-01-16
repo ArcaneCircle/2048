@@ -56,9 +56,10 @@ GameManager.prototype.onStateUpdate = function (update) {
 };
 
 GameManager.prototype.sendHighScore = function () {
-  const name = window.webxdc.selfName();
-  const desc = name + ' scored ' + this.score + ' in 2048';
-  window.webxdc.sendUpdate({addr: window.webxdc.selfAddr(), name: name, score: this.score}, desc);
+    const name = window.webxdc.selfName();
+    const desc = name + ' scored ' + this.score + ' in 2048';
+    const payload = {addr: window.webxdc.selfAddr(), name: name, score: this.score}
+    window.webxdc.sendUpdate({payload: payload, info: desc}, desc);
 };
 
 // Restart the game
