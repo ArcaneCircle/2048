@@ -39,14 +39,14 @@ function GameManager(size, InputManager, Actuator) {
               this.storageManager.setBestScore(payload.addr, payload.name, payload.score);
           }
       });
+      this.actuator.updateScoreboard(this.storageManager.getScoreboard());
+
+      this.inputManager.on("move", this.move.bind(this));
+      this.inputManager.on("restart", this.restart.bind(this));
+      this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
+
+      this.setup();
   });
-  this.actuator.updateScoreboard(this.storageManager.getScoreboard());
-
-  this.inputManager.on("move", this.move.bind(this));
-  this.inputManager.on("restart", this.restart.bind(this));
-  this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
-
-  this.setup();
 }
 
 GameManager.prototype.onStateUpdate = function (update) {
