@@ -763,3 +763,12 @@ hr {
 .w3-ol li{padding:8px 0px;border-bottom:1px solid #ddd}
 .w3-ol li:last-child{border-bottom:none}
 .w3-right{float:right!important}
+
+#footer {
+    font-family: Courier,monospace,sans-serif;
+    position: fixed;
+    bottom: .5em;
+    left: .5em;
+    opacity:0.8;
+    text-decoration: none;
+}
