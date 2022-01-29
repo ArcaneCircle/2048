@@ -121,7 +121,7 @@ HTMLActuator.prototype.updateScore = function (score) {
 
 HTMLActuator.prototype.updateScoreboard = function (board) {
     if (board.length > 0) {
-        const addr = window.webxdc.selfAddr();
+        const addr = window.webxdc.selfAddr;
         const list = document.createElement('ol');
         list.className = 'w3-ol';
         board.forEach(item => {

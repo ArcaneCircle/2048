@@ -32,11 +32,13 @@ function GameManager(size, InputManager, Actuator) {
   this.startTiles     = 2;
 
   window.webxdc.setUpdateListener(this.onStateUpdate.bind(this));
-  window.webxdc.getAllUpdates().forEach((update) => {
-    var payload = update.payload;
-    if (this.storageManager.getBestScore(payload.addr) < payload.score) {
-      this.storageManager.setBestScore(payload.addr, payload.name, payload.score);
-    }
+  window.webxdc.getAllUpdates().then((updates) => {
+      updates.forEach((update) => {
+          var payload = update.payload;
+          if (this.storageManager.getBestScore(payload.addr) < payload.score) {
+              this.storageManager.setBestScore(payload.addr, payload.name, payload.score);
+          }
+      });
   });
   this.actuator.updateScoreboard(this.storageManager.getScoreboard());
 
@@ -56,15 +58,15 @@ GameManager.prototype.onStateUpdate = function (update) {
 };
 
 GameManager.prototype.sendHighScore = function () {
-    const name = window.webxdc.selfName();
+    const name = window.webxdc.selfName;
     const desc = name + ' scored ' + this.score + ' in 2048';
-    const payload = {addr: window.webxdc.selfAddr(), name: name, score: this.score}
+    const payload = {addr: window.webxdc.selfAddr, name: name, score: this.score}
     window.webxdc.sendUpdate({payload: payload, info: desc}, desc);
 };
 
 // Restart the game
 GameManager.prototype.restart = function () {
-  const addr = window.webxdc.selfAddr();
+  const addr = window.webxdc.selfAddr;
   if (this.storageManager.getBestScore(addr) < this.score) {
     this.sendHighScore();
   }
@@ -132,7 +134,7 @@ GameManager.prototype.addRandomTile = function () {
 GameManager.prototype.actuate = function () {
   // Clear the state when the game is over (game over only, not win)
   if (this.over) {
-    const addr = window.webxdc.selfAddr();
+    const addr = window.webxdc.selfAddr;
     if (this.storageManager.getBestScore(addr) < this.score) {
       this.sendHighScore();
     }
