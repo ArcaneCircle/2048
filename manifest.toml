@@ -1,1 +1,9 @@
-name = "2048"
+name="2048"
+
+[store]
+id="com.github.adbenitez.2048"
+version_name=0.2
+version_code=1
+author="adbenitez"
+author_email="adbenitez@nauta.cu"
+description="Join the numbers and get to the 2048 tile!"
