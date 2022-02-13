@@ -50,6 +50,8 @@ def minify_js() -> None:
         if bundle:
             with open(f"build/js/bundle.js", "w", encoding="utf-8") as dest:
                 for filename in sorted(os.listdir("js")):
+                    if not filename.endswith(".js"):
+                        continue
                     with open(f"js/{filename}", encoding="utf-8") as src:
                         if filename.endswith(".min.js"):
                             text = src.read()
@@ -81,6 +83,8 @@ def minify_css() -> None:
         if bundle:
             with open(f"build/css/bundle.css", "w", encoding="utf-8") as dest:
                 for filename in sorted(os.listdir("css")):
+                    if not filename.endswith(".css"):
+                        continue
                     with open(f"css/{filename}", encoding="utf-8") as src:
                         if filename.endswith(".min.css"):
                             dest.write(src.read())
