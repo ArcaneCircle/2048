@@ -133,7 +133,7 @@ HTMLActuator.prototype.updateScoreboard = function (board) {
             score.className = 'w3-right';
 
             const li = document.createElement('li');
-            if (item.addr == addr) {
+            if (item.addr === addr) {
                 const strong = document.createElement("strong");
                 strong.appendChild(name);
                 strong.appendChild(score);

@@ -73,7 +73,7 @@ GameManager.prototype.onStateUpdate = function (update) {
   if (this.storageManager.getBestScore(payload.addr) < payload.score) {
     this.storageManager.setBestScore(payload.addr, payload.name, payload.score);
   }
-  if (update.serial == update.max_serial) {
+  if (update.serial === update.max_serial) {
     this.actuator.updateScoreboard(this.storageManager.getScoreboard());
   }
   this.storageManager.setLastSerial(update.serial);
