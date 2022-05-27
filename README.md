@@ -2,6 +2,10 @@
 
 A [2048](https://github.com/gabrielecirulli/2048) game port for webXdc.
 
+<img width=200 src=https://user-images.githubusercontent.com/9800740/170771022-11536a6d-385c-4994-819c-458bc5dc04f1.png>
+
+[Download .xdc from Release Assets](https://github.com/webxdc/2048.xdc/releases), attach to a Delta Chat group and share your 2048 highscores there!
+
 ## Build
 
 ```sh
