@@ -20,4 +20,4 @@ The output is a file with `.xdc` extension.
 After building, to debug the app in a browser, you can simply open the file `build/index.html`
  
 ## License
-"2048.xdc" is licensed under the [MIT license.](https://github.com/adbenitez/2048.xdc/blob/master/LICENSE.txt)
+"2048.xdc" is licensed under the [MIT license.](https://github.com/webxdc/2048.xdc/blob/master/LICENSE.txt)
