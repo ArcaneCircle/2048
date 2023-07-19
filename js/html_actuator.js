@@ -1,7 +1,6 @@
-function HTMLActuator() {
-  this.tileContainer    = document.querySelector(".tile-container");
-  this.scoreContainer   = document.querySelector(".score-container");
-  this.scoreboardContainer = document.querySelector(".scoreboard-container");
+export function HTMLActuator() {
+  this.tileContainer = document.querySelector(".tile-container");
+  this.scoreContainer = document.querySelector(".score-container");
   this.messageContainer = document.querySelector(".game-message");
 
   this.score = 0;
@@ -30,7 +29,6 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
         self.message(true); // You win!
       }
     }
-
   });
 };
 
@@ -48,9 +46,9 @@ HTMLActuator.prototype.clearContainer = function (container) {
 HTMLActuator.prototype.addTile = function (tile) {
   var self = this;
 
-  var wrapper   = document.createElement("div");
-  var inner     = document.createElement("div");
-  var position  = tile.previousPosition || { x: tile.x, y: tile.y };
+  var wrapper = document.createElement("div");
+  var inner = document.createElement("div");
+  var position = tile.previousPosition || { x: tile.x, y: tile.y };
   var positionClass = this.positionClass(position);
 
   // We can't use classlist because it somehow glitches when replacing classes
@@ -119,40 +117,8 @@ HTMLActuator.prototype.updateScore = function (score) {
   }
 };
 
-HTMLActuator.prototype.updateScoreboard = function (board) {
-    if (board.length > 0) {
-        const addr = window.webxdc.selfAddr;
-        const list = document.createElement('ol');
-        list.className = 'w3-ol';
-        board.forEach(item => {
-            const name = document.createElement('span');
-            name.textContent = item.name.length > 20 ? item.name.substring(0, 20) + '…' : item.name;
-
-            const score = document.createElement('span');
-            score.textContent = item.score;
-            score.className = 'w3-right';
-
-            const li = document.createElement('li');
-            if (item.addr === addr) {
-                const strong = document.createElement("strong");
-                strong.appendChild(name);
-                strong.appendChild(score);
-                li.appendChild(strong);
-            } else {
-                li.appendChild(name);
-                li.appendChild(score);
-            }
-            list.appendChild(li);
-        });
-        this.scoreboardContainer.innerHTML = "<h1>Scoreboard</h1>";
-        this.scoreboardContainer.appendChild(list);
-    } else {
-        this.scoreboardContainer.innerHTML = "";
-    }
-};
-
 HTMLActuator.prototype.message = function (won) {
-  var type    = won ? "game-won" : "game-over";
+  var type = won ? "game-won" : "game-over";
   var message = won ? "You win!" : "Game over!";
 
   this.messageContainer.classList.add(type);
