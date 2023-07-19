@@ -5,8 +5,7 @@
     "dev-mini": "vite --port 3000",
     "dev": "concurrently \"npm run dev-mini\" \"webxdc-dev run http://localhost:3000\"",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "test": "vitest"
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "concurrently": "^8.1.0",
