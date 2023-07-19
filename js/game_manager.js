@@ -37,11 +37,6 @@ export function GameManager(size, InputManager, Actuator) {
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
 
   this.setup();
-
-  window.highscores.init("2048", "scoreboard");
-  document.addEventListener("visibilitychange", () => {
-    window.highscores.setScore(this.score);
-  });
 }
 
 // Restart the game
