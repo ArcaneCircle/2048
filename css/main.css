@@ -707,14 +707,14 @@ hr {
   }
 
   .game-intro {
-    width: 55%;
+    width: 65%;
     display: block;
     box-sizing: border-box;
     line-height: 1.65;
   }
 
   .restart-button {
-    width: 42%;
+    width: 30%;
     padding: 0;
     display: block;
     box-sizing: border-box;
