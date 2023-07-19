@@ -153,8 +153,6 @@ strong.important {
 hr {
   border: none;
   border-bottom: 1px solid #d8d4d0;
-  margin-top: 20px;
-  margin-bottom: 30px;
 }
 
 .container {
@@ -674,10 +672,6 @@ hr {
   display: block;
   text-align: center;
   float: right;
-}
-
-.game-explanation {
-  margin-top: 50px;
 }
 
 @media screen and (max-width: 520px) {

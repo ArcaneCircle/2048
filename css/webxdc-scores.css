@@ -1,8 +1,12 @@
+#scoreboard {
+  margin-top: 1em;
+}
+
 .score-row {
   font-size: 120%;
   text-align: left;
-  padding: 1% 4%;
-  margin: 1% 6%;
+  padding: 1% 2%;
+  margin: 1% 0;
   border-radius: 0.3em;
 }
 
