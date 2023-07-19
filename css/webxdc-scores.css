@@ -1,0 +1,29 @@
+.score-row {
+  font-size: 120%;
+  text-align: left;
+  padding: 1% 4%;
+  margin: 1% 6%;
+  border-radius: 0.3em;
+}
+
+.score-row.you {
+    background: #bbada0;
+    color: white;
+}
+
+.row-pos {
+  float: left;
+}
+
+.row-score {
+  float: right;
+  display: inline-block;
+}
+
+.row-name {
+  text-overflow: ellipsis;
+  display: inline-block;
+  width: 65%;
+  overflow: hidden;
+  white-space: nowrap;
+}

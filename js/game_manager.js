@@ -1,44 +1,19 @@
-function GameManager(size, InputManager, Actuator) {
+import "webxdc-scores"
+import {Grid} from "./grid.js"
+import {Tile} from "./tile.js"
+
+export function GameManager(size, InputManager, Actuator) {
   this.size           = size; // Size of the grid
   this.inputManager   = new InputManager;
   this.storageManager = (() => {
       var bestScoresKey = "bestScores",
           gameStateKey = "gameState",
-          lastSerialKey = "lastSerial",
           getPlayers = () => {
               var scoresJSON = localStorage.getItem(bestScoresKey);
               return scoresJSON ? JSON.parse(scoresJSON) : {};
           };
 
       return {
-          getLastSerial: () => {
-              return Number(localStorage.getItem(lastSerialKey) || 0);
-          },
-
-          setLastSerial: (serial) => {
-              localStorage.setItem(lastSerialKey, serial);
-          },
-
-          getBestScore: (addr) => {
-              var players = getPlayers();
-              return players[addr] ? players[addr].score : 0;
-          },
-
-          setBestScore: (addr, name, score) => {
-              var players = getPlayers();
-              players[addr] = {"name": name, "score": score};
-              localStorage.setItem(bestScoresKey, JSON.stringify(players));
-          },
-
-          getScoreboard: () => {
-              var players = getPlayers();
-              return Object.keys(players).map(function (addr) {
-                  const player = players[addr];
-                  player.addr = addr;
-                  return player;
-              }).sort((a, b) => b.score - a.score);
-          },
-
           getGameState: () => {
               var stateJSON = localStorage.getItem(gameStateKey);
               return stateJSON ? JSON.parse(stateJSON) : null;
@@ -57,41 +32,19 @@ function GameManager(size, InputManager, Actuator) {
 
   this.startTiles     = 2;
 
-  this.actuator.updateScoreboard(this.storageManager.getScoreboard());
-
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
 
   this.setup();
 
-  window.webxdc.setUpdateListener(this.onStateUpdate.bind(this), this.storageManager.getLastSerial());
+  window.highscores.init("2048", "scoreboard");
+  document.addEventListener("visibilitychange", () => {window.highscores.setScore(this.score);});
 }
-
-GameManager.prototype.onStateUpdate = function (update) {
-  var payload = update.payload;
-  if (this.storageManager.getBestScore(payload.addr) < payload.score) {
-    this.storageManager.setBestScore(payload.addr, payload.name, payload.score);
-  }
-  if (update.serial === update.max_serial) {
-    this.actuator.updateScoreboard(this.storageManager.getScoreboard());
-  }
-  this.storageManager.setLastSerial(update.serial);
-};
-
-GameManager.prototype.sendHighScore = function () {
-    const name = window.webxdc.selfName;
-    const desc = name + ' scored ' + this.score + ' in 2048';
-    const payload = {addr: window.webxdc.selfAddr, name: name, score: this.score}
-    window.webxdc.sendUpdate({payload: payload, info: desc}, desc);
-};
 
 // Restart the game
 GameManager.prototype.restart = function () {
-  const addr = window.webxdc.selfAddr;
-  if (this.storageManager.getBestScore(addr) < this.score) {
-    this.sendHighScore();
-  }
+  window.highscores.setScore(this.score);
   this.storageManager.clearGameState();
   this.actuator.continueGame(); // Clear the game won/lost message
   this.setup();
@@ -156,10 +109,7 @@ GameManager.prototype.addRandomTile = function () {
 GameManager.prototype.actuate = function () {
   // Clear the state when the game is over (game over only, not win)
   if (this.over) {
-    const addr = window.webxdc.selfAddr;
-    if (this.storageManager.getBestScore(addr) < this.score) {
-      this.sendHighScore();
-    }
+    window.highscores.setScore(this.score);
     this.storageManager.clearGameState();
   } else {
     this.storageManager.setGameState(this.serialize());
