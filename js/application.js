@@ -1,3 +1,4 @@
+import "webxdc-scores";
 import { GameManager } from "./game_manager.js";
 import { KeyboardInputManager } from "./keyboard_input_manager.js";
 import { HTMLActuator } from "./html_actuator.js";
