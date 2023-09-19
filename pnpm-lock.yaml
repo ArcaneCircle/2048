@@ -19,9 +19,12 @@ devDependencies:
   vite:
     specifier: ^4.3.2
     version: 4.4.9(terser@5.19.4)
+  webxdc-dev:
+    specifier: ^0.17.0
+    version: 0.17.0
   webxdc-vite-plugins:
     specifier: github:webxdc/webxdc-vite-plugins
-    version: github.com/webxdc/webxdc-vite-plugins/4f21b1e509361f2986fa8b3533b851181a6cd56e(terser@5.19.4)(vite@4.4.9)
+    version: github.com/webxdc/webxdc-vite-plugins/f5e90e1e7ac13a5f87845c98554e8f6fd1545751(terser@5.19.4)(vite@4.4.9)
 
 packages:
 
@@ -3001,9 +3004,9 @@ packages:
       jssha: 3.3.1
     dev: false
 
-  github.com/webxdc/webxdc-vite-plugins/4f21b1e509361f2986fa8b3533b851181a6cd56e(terser@5.19.4)(vite@4.4.9):
-    resolution: {tarball: https://codeload.github.com/webxdc/webxdc-vite-plugins/tar.gz/4f21b1e509361f2986fa8b3533b851181a6cd56e}
-    id: github.com/webxdc/webxdc-vite-plugins/4f21b1e509361f2986fa8b3533b851181a6cd56e
+  github.com/webxdc/webxdc-vite-plugins/f5e90e1e7ac13a5f87845c98554e8f6fd1545751(terser@5.19.4)(vite@4.4.9):
+    resolution: {tarball: https://codeload.github.com/webxdc/webxdc-vite-plugins/tar.gz/f5e90e1e7ac13a5f87845c98554e8f6fd1545751}
+    id: github.com/webxdc/webxdc-vite-plugins/f5e90e1e7ac13a5f87845c98554e8f6fd1545751
     name: webxdc-vite-plugins
     version: 0.1.0
     peerDependencies:
@@ -3013,13 +3016,7 @@ packages:
       eruda: 3.0.1
       vite: 4.4.9(terser@5.19.4)
       vite-plugin-zip-pack: 1.0.6(vite@4.4.9)
-      webxdc-dev: 0.17.0
     transitivePeerDependencies:
-      - '@types/express'
-      - bufferutil
-      - debug
-      - encoding
       - supports-color
       - terser
-      - utf-8-validate
     dev: true
