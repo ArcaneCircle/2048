@@ -13,13 +13,13 @@
 After cloning this repo, install dependecies:
 
 ```
-npm i
+pnpm i
 ```
 
 ### Code format
 
 ```
-npm run format:check
+pnpm check
 ```
 
 ### Testing the app in the browser
@@ -27,9 +27,9 @@ npm run format:check
 To test your work in your browser (with hot reloading!) while developing:
 
 ```
-npm run dev-mini
+pnpm dev-mini
 # Alternatively to test in a more advanced WebXDC emulator:
-npm run dev
+pnpm dev
 ```
 
 ### Building
@@ -37,14 +37,14 @@ npm run dev
 To package the WebXDC file:
 
 ```
-npm run build
+pnpm build
 ```
 
 To package the WebXDC with developer tools inside to debug in Delta Chat, set the `NODE_ENV`
 environment variable to "debug":
 
 ```
-NODE_ENV=debug npm run build
+NODE_ENV=debug pnpm build
 ```
 
 The resulting optimized `.xdc` file is saved in `dist-xdc/` folder.
