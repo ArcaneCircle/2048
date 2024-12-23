@@ -1,20 +1,18 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "vite build",
-    "dev-mini": "vite --port 3000",
-    "dev": "concurrently \"npm run dev-mini\" \"webxdc-dev run http://localhost:3000\"",
-    "format": "prettier --write .",
-    "check": "prettier --check ."
+    "start": "vite --port 3000",
+    "fix": "prettier --write .",
+    "check": "prettier --check .",
+    "build": "vite build"
   },
   "devDependencies": {
-    "concurrently": "^8.1.0",
-    "prettier": "^3.0.3",
-    "vite": "^4.3.2",
-    "webxdc-dev": "^0.17.0",
-    "webxdc-vite-plugins": "github:webxdc/webxdc-vite-plugins"
+    "@webxdc/vite-plugins": "latest",
+    "prettier": "latest",
+    "vite": "latest"
   },
   "dependencies": {
-    "webxdc-scores": "github:webxdc/webxdc-scores"
+    "@webxdc/highscores": "^5.3.0"
   }
 }

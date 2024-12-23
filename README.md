@@ -1,22 +1,20 @@
-# 2048 [![CI](https://github.com/webxdc/2048/actions/workflows/ci.yml/badge.svg)](https://github.com/webxdc/2048/actions/workflows/ci.yml) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+# 2048 [![CI](https://github.com/ArcaneCircle/2048/actions/workflows/ci.yml/badge.svg)](https://github.com/ArcaneCircle/2048/actions/workflows/ci.yml) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 [2048](https://github.com/gabrielecirulli/2048) game ported to WebXDC.
 
 <img width=200 src=https://user-images.githubusercontent.com/9800740/170771022-11536a6d-385c-4994-819c-458bc5dc04f1.png>
 
-[Download .xdc from Release Assets](https://github.com/webxdc/2048.xdc/releases), attach to a Delta Chat group and share your 2048 highscores there!
-
 ## Contributing
 
 ### Installing Dependencies
 
-After cloning this repo, install dependecies:
+After cloning this repo, install dependencies:
 
 ```
 pnpm i
 ```
 
-### Code format
+### Checking code format
 
 ```
 pnpm check
@@ -27,9 +25,7 @@ pnpm check
 To test your work in your browser (with hot reloading!) while developing:
 
 ```
-pnpm dev-mini
-# Alternatively to test in a more advanced WebXDC emulator:
-pnpm dev
+pnpm start
 ```
 
 ### Building
